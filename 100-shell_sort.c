@@ -1,31 +1,34 @@
 #include "sort.h"
+
 /**
- * shell_sort - sort the array using shell method and knuth sequence
- * @array: array to sort
- * @size: size of array
+ * shell_sort - sorts an array using shell sort algorithm
+ * @array: array
+ * @size: size of the array
+ * Return: void
  */
 void shell_sort(int *array, size_t size)
 {
-	int h = 1, i, j;
-	int aux = 0;
+	int h = 1, in, out, tmp;
 
-	while (h < ((int)(size)))
-	{
-		h = (3 * h) + 1;
-	}
-	h = (h - 1) / 3;
+	if (array == NULL || size < 2)
+		return;
+	while (h <= ((int)size / 3))
+		h = (h * 3) + 1;
+
 	while (h > 0)
 	{
-		for (i = h; i < (int)(size); i++)
+		for (out = h; out < (int)size; out++)
 		{
-			for (j = i; (j - h) >= 0 && array[j] < array[j - h]; j -= h)
+			tmp = array[out];
+			in = out;
+			while (in >= h && array[in - h] > tmp)
 			{
-				aux = array[j];
-				array[j] = array[j - h];
-				array[j - h] = aux;
+				array[in] = array[in - h];
+				in = in - h;
 			}
+			array[in] = tmp;
 		}
-		print_array(array, size);
 		h = (h - 1) / 3;
+		print_array(array, size);
 	}
 }
